@@ -1,3 +1,4 @@
 # ignore npm dependencies
 node_modules/
 .astro/
+.DS_Store
