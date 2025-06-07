@@ -35,11 +35,14 @@ Simply put, **Go Assembly** is the low-level language used to write performance-
 **Go Assembler** (Code directory path: cmd/asm) is the tool that compiles **Go assembly (.s) files** into machine code.
 The Go assembler was heavily inspired by the [Plan 9 C compilers](https://9p.io/sys/doc/compiler.html).
 
-:::note Plan 9 C compilers
-**Plan 9 C compilers (6c, 8c, 5c, etc.)** were architecture-specific compilers designed to generate optimized code for different CPU architectures. Unlike GCC or LLVM, which support multiple architectures within a single compiler framework, Plan 9 used separate compilers for different instruction sets. These compilers were originally developed for the Plan 9 operating system, an experimental OS designed as a potential successor to Unix-based systems.
+> [!NOTE]
+> **Plan 9 C compilers (6c, 8c, 5c, etc.)** were architecture-specific compilers designed to generate optimized code for different CPU architectures. Unlike GCC or LLVM, which support multiple architectures within a single compiler framework, Plan 9 used separate compilers for different instruction sets. These compilers were originally developed for the Plan 9 operating system, an experimental OS designed as a potential successor to Unix-based systems.
+> 
+> You can read more about it here: [https://9p.io/sys/doc/compiler.html](https://9p.io/sys/doc/compiler.html)
 
-You can read more about it here: [https://9p.io/sys/doc/compiler.html](https://9p.io/sys/doc/compiler.html)
-:::
+
+> [!CAUTION]
+> asdfasdf
 
 Go drew inspiration from 9 C Compiler:
 - Just like **Plan 9** had **separate compilers** for **different architectures** (e.g., 6c for x86-64, 8c for ARM, etc.).

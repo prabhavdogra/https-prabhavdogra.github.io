@@ -14,6 +14,12 @@
   --link-color: #4a9d5e;
   --date-bg: #f0f0f0;
   --date-color: #888;
+
+  --remark-blue: #3b82f6;
+  --remark-green: #10b981;
+  --remark-purple: #a855f7;
+  --remark-yellow: #f59e0b;
+  --remark-red: #ef4444;
 }
 
 .dark-theme {
@@ -79,3 +85,104 @@ pre {
 .red { background-color: #ff6057; }
 .yellow { background-color: #ffbd2e; }
 .green { background-color: #28ca41; }
+
+
+/* Markdown Note */
+.markdown-alert-note {
+  border-left: 4px solid var(--remark-blue);
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: rgba(59, 130, 246, 0.1);
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  border-radius: 0.5rem;
+}
+
+.markdown-alert-note .markdown-alert-title svg {
+  fill: var(--remark-blue);
+}
+
+.markdown-alert-note .markdown-alert-title {
+  color: var(--remark-blue);
+}
+
+/* Markdown Tip */
+.markdown-alert-tip {
+  border-left: 4px solid var(--remark-green);
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: rgba(59, 130, 246, 0.1);
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  border-radius: 0.5rem;
+}
+
+.markdown-alert-tip .markdown-alert-title svg {
+  fill: var(--remark-green);
+}
+
+.markdown-alert-tip .markdown-alert-title {
+  color: var(--remark-green);
+}
+
+/* Markdown Important */
+.markdown-alert-important {
+  border-left: 4px solid var(--remark-purple);
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: rgba(59, 130, 246, 0.1);
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  border-radius: 0.5rem;
+}
+
+.markdown-alert-important .markdown-alert-title svg {
+  fill: var(--remark-purple);
+}
+
+.markdown-alert-important .markdown-alert-title {
+  color: var(--remark-purple);
+}
+
+/* Markdown Warning */
+.markdown-alert-warning {
+  border-left: 4px solid var(--remark-yellow);
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: rgba(59, 130, 246, 0.1);
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  border-radius: 0.5rem;
+}
+
+.markdown-alert-warning .markdown-alert-title svg {
+  fill: var(--remark-yellow);
+}
+
+.markdown-alert-warning .markdown-alert-title {
+  color: var(--remark-yellow);
+}
+
+/* Markdown Caution */
+.markdown-alert-caution {
+  border-left: 4px solid var(--remark-red);
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: rgba(59, 130, 246, 0.1);
+  padding-top: 15px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  border-radius: 0.5rem;
+}
+
+.markdown-alert-caution .markdown-alert-title svg {
+  fill: var(--remark-red);
+}
+
+.markdown-alert-caution .markdown-alert-title {
+  color: var(--remark-red);
+}

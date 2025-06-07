@@ -39,7 +39,7 @@ To follow along this read feel free to clone the [Golang](https://github.com/gol
 - Open the repository and run the bash script `./make.bash`, to build and install the latest compiler of Go.
 - Point your system or editor (like VSCode) to use the newly built Go version:
 
-:::note Bootstrapped Compilers
+> [!NOTE] Bootstrapped Compilers
 When I first came across the concept of a bootstrapped compiler, it honestly felt like a total brain teaser. The idea that a compiler could be written in the same language it’s supposed to compile? Wild.
 
 Here’s the bombshell: **the Go compiler is written in Go itself**.
