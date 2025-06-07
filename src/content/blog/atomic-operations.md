@@ -126,7 +126,6 @@ RET:
 ```
 - Returns from the function
 
-
 ### Conclusion
 
 At the register level, atomicity is achieved because:
