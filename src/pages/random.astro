@@ -1,0 +1,146 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import CommandPrompt from '../components/CommandPrompt.astro';
+---
+
+<MainLayout title="Random Posts | Terminal Blog" description="A random collection of posts">
+  <CommandPrompt command="curl -s https://www.linkedin.com/in/prabhav-dogra" />
+
+  <div class="posts-container">
+    <div class="post-collage">
+      <!-- 1) First post, lifted out and given class="first-post" so it can span two columns -->
+      <div class="iframe-wrapper first-post">
+        <div class="loader">Loading...</div>
+        <iframe
+          class="linkedin-embed"
+          src="https://www.linkedin.com/embed/feed/update/urn:li:share:7321402880395993089"
+          height="600"
+          width="100%"
+          frameborder="0"
+          allowfullscreen=""
+          title="LinkedIn post"
+        ></iframe>
+      </div>
+
+      <!-- 2) The rest of your posts (now grid items in the second row, two columns) -->
+      <div class="iframe-wrapper">
+        <div class="loader">Loading...</div>
+        <iframe
+          class="linkedin-embed"
+          src="https://www.linkedin.com/embed/feed/update/urn:li:share:7014092421655367680"
+          height="600"
+          width="100%"
+          frameborder="0"
+          allowfullscreen=""
+          title="LinkedIn post"
+        ></iframe>
+      </div>
+
+      <div class="iframe-wrapper">
+        <div class="loader">Loading...</div>
+        <iframe
+          class="linkedin-embed"
+          src="https://www.linkedin.com/embed/feed/update/urn:li:share:6992811533298741248"
+          height="600"
+          width="100%"
+          frameborder="0"
+          allowfullscreen=""
+          title="LinkedIn post"
+        ></iframe>
+      </div>
+
+      <div class="iframe-wrapper">
+        <div class="loader">Loading...</div>
+        <iframe
+          class="linkedin-embed"
+          src="https://www.linkedin.com/embed/feed/update/urn:li:share:6875996852253274112"
+          height="600"
+          width="100%"
+          frameborder="0"
+          allowfullscreen=""
+          title="LinkedIn post"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+<style>
+  .posts-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* 1) Define a 2-column grid. */
+  .post-collage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  /* 2) Let the first post span both columns. */
+  .first-post {
+    grid-column: 1 / -1;
+  }
+
+  /* 3) Every iframe wrapper is positioned relative so loader can center itself. */
+  .iframe-wrapper {
+    position: relative;
+    width: 100%;
+    height: 600px; /* match each iframe’s height */
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+  }
+
+  /* Centered “Loading…” text over each iframe */
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fira Code', monospace;
+    font-size: 1rem;
+    color: var(--terminal-green);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 8px 12px;
+    border-radius: 4px;
+    z-index: 10;
+  }
+
+  /* Each iframe covers the full wrapper. */
+  .linkedin-embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* When .loader is hidden, iframe shows through */
+  .loader--hidden {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    /* On mobile, everything becomes a single column. */
+    .post-collage {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- 4) JS to hide loader once each iframe has fully loaded -->
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const iframes = document.querySelectorAll('iframe.linkedin-embed');
+    iframes.forEach((iframe) => {
+      const loader = iframe.parentElement.querySelector('.loader');
+      iframe.addEventListener('load', () => {
+        loader.classList.add('loader--hidden');
+      });
+    });
+  });
+</script>
