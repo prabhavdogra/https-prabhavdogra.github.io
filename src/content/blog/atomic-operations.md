@@ -40,10 +40,6 @@ The Go assembler was heavily inspired by the [Plan 9 C compilers](https://9p.io/
 > 
 > You can read more about it here: [https://9p.io/sys/doc/compiler.html](https://9p.io/sys/doc/compiler.html)
 
-
-> [!CAUTION]
-> asdfasdf
-
 Go drew inspiration from 9 C Compiler:
 - Just like **Plan 9** had **separate compilers** for **different architectures** (e.g., 6c for x86-64, 8c for ARM, etc.).
 - Go’s assembler follows a similar architecture-based approach, instead of a universal assembler Go has different assemblers for x86, ARM, RISC-V, etc.
