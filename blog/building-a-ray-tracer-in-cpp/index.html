@@ -1,0 +1,361 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-ouamjn2i> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="A terminal-styled developer blog"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Building a Ray Tracer in C++</title><link rel="stylesheet" href="/_astro/_slug_.9FmQwCpw.css">
+<link rel="stylesheet" href="/_astro/_slug_.TTX37v3e.css"><script type="module">const c=document.getElementById("search-button");c?.addEventListener("click",()=>{document.dispatchEvent(new CustomEvent("toggle-search"))});const n=document.getElementById("theme-toggle"),o=window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");(e==="dark"||!e&&o)&&document.documentElement.classList.add("dark-theme");n?.addEventListener("click",()=>{const t=document.documentElement.classList.toggle("dark-theme");localStorage.setItem("theme",t?"dark":"light")});
+</script>
+<script type="module" src="/_astro/page.DZtx3eTe.js"></script></head> <body data-astro-cid-ouamjn2i> <header class="header" data-astro-cid-3ef6ksr2> <div class="terminal-header" data-astro-cid-3ef6ksr2> <div class="terminal-dots" data-astro-cid-3ef6ksr2> <div class="dot red" data-astro-cid-3ef6ksr2></div> <div class="dot yellow" data-astro-cid-3ef6ksr2></div> <div class="dot green" data-astro-cid-3ef6ksr2></div> </div> <nav class="terminal-nav" data-astro-cid-3ef6ksr2> <a href="/" class="command " data-astro-cid-3ef6ksr2>cd ~</a> <a href="/blog" class="command active" data-astro-cid-3ef6ksr2>cd ~/blog</a> <a href="/random" class="command " data-astro-cid-3ef6ksr2>rand</a> <a href="/whoami" class="command " data-astro-cid-3ef6ksr2>whoami</a> <a href="/ping" class="command " data-astro-cid-3ef6ksr2>ping</a> <a href="/assets/resume/PrabhavDogra.pdf" target="_blank" rel="noopener noreferrer" class="command" data-astro-cid-3ef6ksr2>cd ~/resume</a> </nav> <span class="prompt" data-astro-cid-3ef6ksr2>$</span> <button id="search-button" class="search-button" data-astro-cid-3ef6ksr2>
+search <span class="search-term" data-astro-cid-3ef6ksr2>--query='search term'</span> </button> </div> </header>   <main class="container" data-astro-cid-ouamjn2i> <div class="content" data-astro-cid-ouamjn2i> <div class="blog-title" data-astro-cid-ouamjn2i>~/blog</div>   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous"> <div class="blog-path" data-astro-cid-4dqtj3le>~/blog/building-a-ray-tracer-in-c++</div> <article class="blog-post" data-astro-cid-4dqtj3le> <h1 class="blog-post-title" data-astro-cid-4dqtj3le>Building a Ray Tracer in C++</h1> <div class="blog-post-date" data-astro-cid-4dqtj3le>📅 February 27, 2025</div> <div class="blog-post-content markdown-content" data-astro-cid-4dqtj3le>  <p>This blog is just a quick summary of the book <a href="https://raytracing.github.io/books/RayTracingInOneWeekend.html">Ray Tracing in One Weekend</a></p>
+<p>Github Source Code: <a href="https://github.com/dograprabhav/ray_tracer">dograprabhav/ray_tracer</a></p>
+<h2 id="whatre-we-gonna-make">What’re we gonna make?</h2>
+<p><img  src="/_astro/image-2.QIbRKyLp_Z1B0dVr.webp" alt="Final" width="1200" height="675" loading="lazy" decoding="async"></p>
+<h2 id="milestone-1">Milestone 1:</h2>
+<p>Before starting anything, in this milestone we just create a sample image. To do that we use one of the simplest formats <strong>P3</strong>. <strong>P3</strong> is a plain text format for <strong>Portable Pixmap (PPM)</strong> image files. It is one of the simplest image formats, where pixel data is represented in plain text.</p>
+<h3 id="p3-image-format">P3 Image Format</h3>
+<p>In P3, each pixel is defined by three integers corresponding to the red, green, and blue color channels. The first line of the output is “P3”, identifying the file format. The second line contains the width and height of the image. The third line specifies the maximum color value (typically 255, representing the maximum intensity for each color channel).
+Each subsequent line contains three integers (r, g, b) for each pixel’s color in the image.</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>P3           // Defining format</span></span>
+<span class="line"><span>2 3          // Width and Height</span></span>
+<span class="line"><span>255          // Maximum color value</span></span>
+<span class="line"><span>2 5 15       // (r, g, b) color intensity triplets</span></span>
+<span class="line"><span>0 255 255    // (r, g, b) color intensity triplets</span></span>
+<span class="line"><span>255 0 255    // (r, g, b) color intensity triplets</span></span>
+<span class="line"><span>255 255 0    // (r, g, b) color intensity triplets</span></span>
+<span class="line"><span>0 0 0        // (r, g, b) color intensity triplets</span></span>
+<span class="line"><span>255 255 255  // (r, g, b) color intensity triplets</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This image looks like:       <img  src="/_astro/image-3.GthlWSqN_ZoY9vY.webp" alt="P3" width="45" height="62" loading="lazy" decoding="async"></p>
+<h3 id="milestone-1-results">Milestone 1 Results</h3>
+<p>We write a simple loop to render this:</p>
+<p><img  src="/_astro/image-4.C7WCuHJJ_Z1WMHGB.webp" alt="P3" width="300" height="300" loading="lazy" decoding="async"></p>
+<h2 id="milestone-2">Milestone 2:</h2>
+<p>In this milestone we setup a basic ray tracing setup.</p>
+<ul>
+<li>We setup a sphere in the scene.</li>
+<li>We setup light rays that detects object in the scene.</li>
+<li>On the basis of intersection of light rays and objects in the scene it detects what each pixel in the image should look like.</li>
+<li>Set up vector ray header files</li>
+</ul>
+<h3 id="how-it-works">How it works?</h3>
+<p><img  src="/_astro/image-5.7QRqqzYl_CBvqo.webp" alt="How it works?" width="1502" height="1212" loading="lazy" decoding="async">
+This image represents the basic concept of a ray-tracing camera model used in computer graphics and rendering. Let’s break it down step by step:</p>
+<ul>
+<li>
+<p><strong>Camera and Viewport Setup</strong>: The camera center is the origin of the coordinate system. A viewport (camera screen/a plane) is placed in front of the camera at a certain focal length. The viewport is divided into a grid of pixels (X × Y), where each cell represents a pixel in the final rendered image.</p>
+</li>
+<li>
+<p><strong>Ray Tracing Process:</strong> For each pixel in the viewport grid</p>
+<ul>
+<li>A ray of light is cast from the camera center through the center of the pixel.</li>
+<li>The ray travels in the scene and intersects with objects (like the blue sphere in the diagram).</li>
+<li>If a ray hits an object, the rendering algorithm calculates the color of that pixel based on:
+<ul>
+<li>The material properties (color, reflectivity, transparency).</li>
+<li>Lighting conditions (shadows, reflections, refractions).</li>
+<li>Camera perspective.</li>
+</ul>
+</li>
+<li>The computed color is assigned to the corresponding pixel in the final image.</li>
+</ul>
+</li>
+</ul>
+<h3 id="sphere-ray-intersection">Sphere-Ray Intersection</h3>
+<p>This section explains the mathematical derivation for determining the intersection points between a ray and a sphere.</p>
+<p><strong>Sphere Equations</strong></p>
+<ul>
+<li><strong>Sphere centered at (0, 0, 0):</strong>
+<ul>
+<li><code>x² + y² + z² = r²</code></li>
+</ul>
+</li>
+<li><strong>Sphere centered at (Cx, Cy, Cz):</strong>
+<ul>
+<li><code>(Cx - x)² + (Cy - y)² + (Cz - z)² = r²</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Vector and Distance</strong></p>
+<ul>
+<li><strong>Vector from point A(x1, y1, z1) to B(x2, y2, z2):</strong>
+<ul>
+<li><code>(B - A) = (x2 - x1, y2 - y1, z2 - z1)</code></li>
+</ul>
+</li>
+<li><strong>Distance between points A and B:</strong>
+<ul>
+<li><code>d = √[(x2 - x1)² + (y2 - y1)² + (z2 - z1)²]</code></li>
+</ul>
+</li>
+<li><strong>Vector from point P(x, y, z) to center C(Cx, Cy, Cz):</strong>
+<ul>
+<li><code>(C - P) = (Cx - x, Cy - y, Cz - z)</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Point on Sphere Condition</strong></p>
+<p>For point P to lie on the sphere, it must be ‘r’ (radius) distance from the center:</p>
+<ul>
+<li><code>(C - P) ⋅ (C - P) = (Cx - x)² + (Cy - y)² + (Cz - z)²</code></li>
+<li><code>(Cx - x)² + (Cy - y)² + (Cz - z)² = r²</code> (Distance from center)</li>
+<li>Therefore: <code>(C - P) ⋅ (C - P) = r²</code></li>
+</ul>
+<p><strong>Ray Equation</strong></p>
+<ul>
+<li><strong>General ray equation:</strong> <code>RAY(t) = M * t + N</code>
+<ul>
+<li><code>M</code> is the ray’s direction vector.</li>
+<li><code>N</code> is the ray’s origin point.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Ray-Sphere Intersection</strong></p>
+<p>A ray hits the sphere when it’s ‘r’ distance from the center:</p>
+<ul>
+<li><code>(C - RAY(t)) ⋅ (C - RAY(t)) = r²</code></li>
+<li><code>(C - (M * t + N)) ⋅ (C - (M * t + N)) = r²</code></li>
+<li>Expanding the equation:
+<ul>
+<li><code>t² * M ⋅ M - 2 * t * M ⋅ (C - N) + (C - N) ⋅ (C - N) - r² = 0</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Quadratic Formula</strong></p>
+<p>Using the quadratic formula (<code>roots = -b ± √(b² - 4ac) / 2a</code>), we get:</p>
+<ul>
+<li><code>a = M ⋅ M</code></li>
+<li><code>b = -2 * M ⋅ (C - N)</code></li>
+<li><code>c = (C - N) ⋅ (C - N) - r²</code></li>
+</ul>
+<p>By solving this quadratic equation for ‘t’, we can find the intersection points (if any) between the ray and the sphere.</p>
+<h3 id="milestone-2-results">Milestone 2 Results</h3>
+<p><img  src="/_astro/image-6.BaQI02e8_Z1mWOzX.webp" alt="Milestone 2 results" width="400" height="225" loading="lazy" decoding="async"></p>
+<h2 id="milestone-3">Milestone 3:</h2>
+<ul>
+<li>Scene Abstraction:
+<ul>
+<li>Introduced a Scene structure to manage all objects, lights, and properties in the environment.</li>
+<li>Simplifies the rendering process by treating the scene as a collection of objects instead of handling each separately.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Result:</strong> The code is cleaner, modular, and easier to extend in the future (e.g., adding reflections, refractions, and different shapes).</p>
+<h3 id="milestone-3-results">Milestone 3 Results</h3>
+<p><img  src="/_astro/image-7.Bq85fM0j_1hmr8g.webp" alt="Milestone 3 results" width="400" height="225" loading="lazy" decoding="async"></p>
+<h2 id="milestone-4">Milestone 4:</h2>
+<p><strong>Rendering Improvements</strong></p>
+<ul>
+<li><strong>Added Anti-Aliasing</strong>
+<ul>
+<li>Reduced jagged edges in the final image by averaging multiple rays per pixel.</li>
+</ul>
+</li>
+<li><strong>Added Camera Class</strong>
+<ul>
+<li>Abstracted camera logic for better scene control.</li>
+</ul>
+</li>
+<li><strong>Started Considering Reflected Rays</strong>
+<ul>
+<li>Introduced initial logic for reflection to create mirror-like surfaces.</li>
+<li>Prepares the system for handling realistic light behavior.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Material System Enhancements</strong></p>
+<ul>
+<li><strong>Added Material Class for Diffuse Material</strong>
+<ul>
+<li>Defined a reusable <code>Material</code> class to manage object properties.</li>
+<li>Simplified code structure by encapsulating material behavior.</li>
+</ul>
+</li>
+<li><strong>Added Material Class with Diffuse Material</strong>
+<ul>
+<li>Implemented Lambertian reflection for diffuse surfaces.</li>
+<li>Ensures objects interact naturally with light sources.</li>
+</ul>
+</li>
+<li><strong>Added True Lambertian Reflection</strong>
+<ul>
+<li>Improved light scattering on rough surfaces.</li>
+<li>Used a more accurate random sampling technique for diffuse reflections.</li>
+</ul>
+</li>
+<li><strong>Gamma Correction</strong>
+<ul>
+<li>Gamma Correction for More Realistic Colors</li>
+</ul>
+</li>
+</ul>
+<h3 id="anti-aliasing">Anti-aliasing</h3>
+<ul>
+<li>Reduced jagged edges in the final image by averaging multiple rays per pixel.
+<img  src="/_astro/image-8.CwhH4tk9_ZaRBoN.webp" alt="Anti-Aliasing" width="400" height="276" loading="lazy" decoding="async"></li>
+</ul>
+<h3 id="a-simple-diffuse-material">A Simple Diffuse Material</h3>
+<p>A diffuse surface is a surface that scatters light in many directions instead of reflecting it in a single, well-defined direction (like a mirror). This happens because the surface is rough at a microscopic level.</p>
+<ul>
+<li>Some observations:
+<ul>
+<li>A light ray that bounces of a diffuse surface has equal probability of bouncing in all directions</li>
+<li>They might also be absorbed rather than reflected. The darker the surface, the more likely the ray is absorbed (that’s why it’s dark!).</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>How we will do it:
+<ul>
+<li>Generate a random vector inside the unit sphere</li>
+<li>Normalize this vector to extend it to the sphere surface</li>
+<li>Invert the normalized vector if it falls onto the wrong hemisphere</li>
+</ul>
+</li>
+</ul>
+<p><img  src="/_astro/image.C5Yd5Ttb_aSqpb.webp" alt="Generating randomised reflected rays" width="400" height="421" loading="lazy" decoding="async"></p>
+<h3 id="true-lambertian-reflection">True Lambertian Reflection</h3>
+<p>A more accurate representation of real diffuse objects is the Lambertian distribution. This distribution scatters reflected rays in a manner that is proportional to cos(𝜙), where 𝜙 is the angle between the reflected ray and the surface normal.</p>
+<p>This means that a reflected ray is most likely to scatter in a direction near the surface normal, and less likely to scatter in directions away from the normal.
+We do this by</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#7F848E;font-style:italic">    // rec.normal is the normal to the hemisphere</span></span>
+<span class="line"><span style="color:#ABB2BF">    vec3 direction </span><span style="color:#C678DD">=</span><span style="color:#ABB2BF"> rec.normal </span><span style="color:#C678DD">+</span><span style="color:#61AFEF"> random_unit_vector</span><span style="color:#ABB2BF">();</span></span>
+<span class="line"></span></code></pre>
+<h3 id="gamma-correction">Gamma Correction</h3>
+<ul>
+<li>Gamma Correction for More Realistic Colors
+<ul>
+<li>Raw pixel values in the renderer are stored in linear color space.</li>
+<li>Most displays, however, interpret color values in a non-linear way, requiring gamma correction.</li>
+<li>Gamma correction is applied using the equation:</li>
+</ul>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>corrected color = raw color ^ (¹⁄ᵧ)</span></span>
+<span class="line"><span></span></span></code></pre>
+where <strong>γ</strong> (gamma) is typically <strong>2.2</strong>.</li>
+</ul>
+<h2 id="milestone-5">Milestone 5:</h2>
+<p><strong>Metal</strong></p>
+<ul>
+<li>Add a new class to <strong>Material class</strong> for <strong>Metal object</strong></li>
+<li>Modelled light scatter and <strong>reflectance</strong>, enabling realistic surfaces.</li>
+<li>Added <strong>mirrored light reflection</strong> for metallic objects.</li>
+<li>Implemented <strong>fuzzy reflection</strong>, simulating rough metallic finishes.</li>
+</ul>
+<p><strong>Dielectrics</strong></p>
+<ul>
+<li>Explored refraction and how light bends through transparent materials.</li>
+<li>Used <strong>Snell’s Law</strong> to determine how rays change direction at surfaces.</li>
+<li>Introduced <strong>total internal reflection</strong>, where light stays within the medium.</li>
+<li>Implemented the <strong>Schlick Approximation</strong> for <strong>realistic reflection intensity</strong>.</li>
+</ul>
+<p><strong>Positionable Camera</strong></p>
+<ul>
+<li>Defines camera viewing geometry for perspective accuracy.</li>
+<li>Introduces controls for positioning and orienting the camera, improving scene setup.</li>
+</ul>
+<h3 id="metallic-surfaces-and-reflective-rays">Metallic Surfaces and Reflective Rays</h3>
+<p>Introduces metallic materials by modifying how rays bounce off surfaces.
+Reflection is modeled using the equation:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>𝑅 = 𝑉 − 2 (𝑉 ⋅ 𝑁) 𝑁 </span></span>
+<span class="line"><span></span></span></code></pre>
+<p><img  src="/_astro/image-9.C7hInL71_1uXYYH.webp" alt="Mirrored reflection" width="400" height="306" loading="lazy" decoding="async"></p>
+<ul>
+<li>Where,
+<ul>
+<li><strong>𝑅</strong> is the reflected ray,</li>
+<li><strong>𝑉</strong> is the incoming ray, and</li>
+<li><strong>𝑁</strong> is the surface normal.
+The reflected ray is traced to determine the color contribution from the metal.</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>Fuzziness in Reflection:
+<ul>
+<li>To simulate rough metal, a fuzziness parameter is introduced.</li>
+<li>Instead of perfect reflection, a small random offset is added to the reflected ray direction.</li>
+<li>The amount of fuzziness controls how polished or rough the surface appears.</li>
+</ul>
+</li>
+</ul>
+<h3 id="dielectrics">Dielectrics</h3>
+<p>Clear materials such as water, glass, and diamond are dielectrics. When a light ray hits them, it splits into a reflected ray and a refracted (transmitted) ray. We’ll handle that by randomly choosing between reflection and refraction, only generating one scattered ray per interaction.</p>
+<h3 id="snells-law">Snell’s Law</h3>
+<p>Where 𝜃 and 𝜃′ are the angles from the normal, and 𝜂 and 𝜂′ are the refractive indices. The geometry is:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>⇒ 𝜂 ⋅ sin𝜃 = 𝜂′ ⋅ sin𝜃′</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>where:</p>
+<ul>
+<li><strong>𝜂</strong> — Refractive index of the first medium</li>
+<li><strong>𝜂′</strong> — Refractive index of the second medium</li>
+<li><strong>𝜃</strong> — Incident angle (angle between the incoming ray and the normal)</li>
+<li><strong>𝜃′</strong> — Refracted angle (angle between the refracted ray and the normal)</li>
+</ul>
+<p><img  src="/_astro/image-1.CpnX6-YB_2ofh8T.webp" alt="Snell&#38;#x27;s Law" width="421" height="358" loading="lazy" decoding="async"></p>
+<h3 id="total-internal-reflection">Total Internal Reflection</h3>
+<p>Total Internal Reflection (TIR) occurs when light traveling from a <strong>denser medium</strong> to a <strong>less dense medium</strong> is <strong>completely reflected</strong> rather than refracted. This happens when the <strong>angle of incidence</strong> exceeds the <strong>critical angle</strong>, given by:</p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>theta = sin⁻¹(n₂ / n₁)</span></span>
+<span class="line"><span></span></span></code></pre>
+<p><img  src="/_astro/image-11.byV9tG0d_QRvQk.webp" alt="TIR" width="300" height="240" loading="lazy" decoding="async"></p>
+<h3 id="schlicks-approximation">Schlick’s Approximation</h3>
+<p>Schlick’s Approximation provides an efficient way to estimate <strong>reflectance</strong> at the interface of two materials based on the <strong>angle of incidence</strong>.</p>
+<p><img  src="/_astro/image-12.BrGc8_pP_Z1H4CRy.webp" alt="schlicks" width="1600" height="637" loading="lazy" decoding="async"></p>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>R₀ = ((n₁ - n₂) / (n₁ + n₂))²</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>This approximation avoids expensive computations while providing visually accurate reflections.</p>
+<h3 id="final-render">Final Render</h3>
+<p><img  src="/_astro/image-2.QIbRKyLp_Z1B0dVr.webp" alt="Final" width="1200" height="675" loading="lazy" decoding="async"></p>  </div> <div class="blog-post-nav" data-astro-cid-4dqtj3le> <a href="/" class="back-link" data-astro-cid-4dqtj3le>cd ..</a> </div> </article>  </div> </main> <button id="theme-toggle" aria-label="Toggle dark mode" data-astro-cid-x3pjskd3> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-x3pjskd3> <path class="sun" d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-15v2m0 16v2M5.3 5.3l1.4 1.4m10.6 10.6 1.4 1.4M2 12h2m16 0h2M5.3 18.7l1.4-1.4m10.6-10.6 1.4-1.4" data-astro-cid-x3pjskd3></path> <path class="moon" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 10 10z" data-astro-cid-x3pjskd3></path> </svg> </button>   <div id="search-modal" x-data="{ 
+    open: false,
+    query: '',
+    results: [],
+    selectedIndex: -1,
+    init() {
+      this.$watch('open', value => {
+        if (value) {
+          setTimeout(() => this.$refs.searchInput.focus(), 50);
+          document.body.classList.add('modal-open');
+        } else {
+          document.body.classList.remove('modal-open');
+        }
+      });
+      
+      document.addEventListener('toggle-search', () => {
+        this.open = !this.open;
+        this.query = '';
+        this.results = [];
+      });
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !this.open && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          this.open = true;
+        }
+        if (e.key === 'Escape' && this.open) {
+          this.open = false;
+        }
+      });
+    },
+    search() {
+      if (this.query.length < 2) {
+        this.results = [];
+        return;
+      }
+      
+      const fuseSearch = new window.Fuse(this.searchableContent, {
+        keys: ['title', 'description', 'content'],
+        includeScore: true,
+        threshold: 0.4,
+        ignoreLocation: true
+      });
+      
+      this.results = fuseSearch.search(this.query).slice(0, 10);
+      this.selectedIndex = this.results.length > 0 ? 0 : -1;
+    },
+    handleKeyDown(event) {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.selectedIndex = Math.min(this.selectedIndex + 1, this.results.length - 1);
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+      } else if (event.key === 'Enter' && this.selectedIndex >= 0) {
+        event.preventDefault();
+        window.location.href = this.results[this.selectedIndex].item.url;
+      }
+    }
+  }" x-init="searchableContent = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify(searchableContent)) %>'))" x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="search-modal" @keydown.escape="open = false" data-astro-cid-qk3db3zz> <div class="search-backdrop" @click="open = false" data-astro-cid-qk3db3zz></div> <div class="search-container" data-astro-cid-qk3db3zz> <div class="search-header" data-astro-cid-qk3db3zz> <div class="terminal-dots" data-astro-cid-qk3db3zz> <div class="dot red" data-astro-cid-qk3db3zz></div> <div class="dot yellow" data-astro-cid-qk3db3zz></div> <div class="dot green" data-astro-cid-qk3db3zz></div> </div> <span class="search-title" data-astro-cid-qk3db3zz>$ grep -r</span> <button class="close-button" @click="open = false" data-astro-cid-qk3db3zz>×</button> </div> <div class="search-content" data-astro-cid-qk3db3zz> <div class="search-input-container" data-astro-cid-qk3db3zz> <input x-ref="searchInput" type="text" placeholder="Search the blog..." x-model="query" @input="search()" @keydown="handleKeyDown($event)" class="search-input" data-astro-cid-qk3db3zz> </div> <div class="search-results" x-show="query.length > 1" data-astro-cid-qk3db3zz> <template x-if="results.length === 0 && query.length > 1" data-astro-cid-qk3db3zz> <div class="no-results" data-astro-cid-qk3db3zz>No results found for "<span x-text="query" data-astro-cid-qk3db3zz></span>"</div> </template> <template x-if="results.length > 0" data-astro-cid-qk3db3zz> <ul class="results-list" data-astro-cid-qk3db3zz> <template x-for="(result, index) in results" :key="result.item.id" data-astro-cid-qk3db3zz> <li class="result-item" :class="{ 'selected': index === selectedIndex }" @click="window.location.href = result.item.url" @mouseover="selectedIndex = index" data-astro-cid-qk3db3zz> <div class="result-title" x-text="result.item.title" data-astro-cid-qk3db3zz></div> <div class="result-date" x-text="new Date(result.item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })" data-astro-cid-qk3db3zz></div> <div class="result-description" x-text="result.item.description || result.item.content.slice(0, 100) + '...'" data-astro-cid-qk3db3zz></div> </li> </template> </ul> </template> </div> </div> <div class="search-footer" x-show="query.length > 1" data-astro-cid-qk3db3zz> <div class="keyboard-shortcuts" data-astro-cid-qk3db3zz> <span data-astro-cid-qk3db3zz>↑↓ to navigate</span> <span data-astro-cid-qk3db3zz>↵ to select</span> <span data-astro-cid-qk3db3zz>ESC to close</span> </div> </div> </div> </div>  <!-- Fuse.js for search --> <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script> </body> </html>  

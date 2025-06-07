@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-ouamjn2i> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="A terminal-styled developer blog"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Writing your own Goroutines</title><link rel="stylesheet" href="/_astro/_slug_.9FmQwCpw.css">
+<link rel="stylesheet" href="/_astro/_slug_.TTX37v3e.css"><script type="module">const c=document.getElementById("search-button");c?.addEventListener("click",()=>{document.dispatchEvent(new CustomEvent("toggle-search"))});const n=document.getElementById("theme-toggle"),o=window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");(e==="dark"||!e&&o)&&document.documentElement.classList.add("dark-theme");n?.addEventListener("click",()=>{const t=document.documentElement.classList.toggle("dark-theme");localStorage.setItem("theme",t?"dark":"light")});
+</script>
+<script type="module" src="/_astro/page.DZtx3eTe.js"></script></head> <body data-astro-cid-ouamjn2i> <header class="header" data-astro-cid-3ef6ksr2> <div class="terminal-header" data-astro-cid-3ef6ksr2> <div class="terminal-dots" data-astro-cid-3ef6ksr2> <div class="dot red" data-astro-cid-3ef6ksr2></div> <div class="dot yellow" data-astro-cid-3ef6ksr2></div> <div class="dot green" data-astro-cid-3ef6ksr2></div> </div> <nav class="terminal-nav" data-astro-cid-3ef6ksr2> <a href="/" class="command " data-astro-cid-3ef6ksr2>cd ~</a> <a href="/blog" class="command active" data-astro-cid-3ef6ksr2>cd ~/blog</a> <a href="/random" class="command " data-astro-cid-3ef6ksr2>rand</a> <a href="/whoami" class="command " data-astro-cid-3ef6ksr2>whoami</a> <a href="/ping" class="command " data-astro-cid-3ef6ksr2>ping</a> <a href="/assets/resume/PrabhavDogra.pdf" target="_blank" rel="noopener noreferrer" class="command" data-astro-cid-3ef6ksr2>cd ~/resume</a> </nav> <span class="prompt" data-astro-cid-3ef6ksr2>$</span> <button id="search-button" class="search-button" data-astro-cid-3ef6ksr2>
+search <span class="search-term" data-astro-cid-3ef6ksr2>--query='search term'</span> </button> </div> </header>   <main class="container" data-astro-cid-ouamjn2i> <div class="content" data-astro-cid-ouamjn2i> <div class="blog-title" data-astro-cid-ouamjn2i>~/blog</div>   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" integrity="sha384-GvrOXuhMATgEsSwCs4smul74iXGOixntILdUW9XmUC6+HX0sLNAK3q71HotJqlAn" crossorigin="anonymous"> <div class="blog-path" data-astro-cid-4dqtj3le>~/blog/writing-your-own-goroutines</div> <article class="blog-post" data-astro-cid-4dqtj3le> <h1 class="blog-post-title" data-astro-cid-4dqtj3le>Writing your own Goroutines</h1> <div class="blog-post-date" data-astro-cid-4dqtj3le>📅 March 1, 2025</div> <div class="blog-post-content markdown-content" data-astro-cid-4dqtj3le>  <p>This all started when someone asked me how goroutines work internally and all I could respond with was:</p>
+<blockquote>
+<p>“Goroutines are lightweight threads managed by the Go runtime instead of the operating system. Go runtime automatically multiplexes—mapping multiple goroutines onto a smaller number of OS threads. And that somehow makes them fast?? 👉👈”</p>
+</blockquote>
+<p>If anyone asked me any in-depth questions about how this multiplexing worked I was blank. So I decided to gain a deeper understanding by implementing goroutines myself. Cloned the <a href="https://github.com/golang/go">Go Github repo</a></p>
+<h2 id="to-be-continued">To be continued…</h2>
+<h3 id="go-runtime">Go runtime:</h3>
+<details>
+  <summary>runtime/proc.go</summary>
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>- It handles the core scheduling and lifecycle of Go programs.</span></span>
+<span class="line"><span></span></span></code></pre>
+</details>
+<details>
+  <summary>How memory allocation works in Golang?</summary>
+- Entrypoint: 
+    - `runtime/proc.go : schedinit()` → `runtime/malloc.go : mallocinit()`
+<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>    - `mallocinit()`: It performs a series of checks and sets up the fundamental data structures and configurations necessary for dynamic memory allocation within your Go program.</span></span>
+<span class="line"><span>        - Invokes `mheap.init()`</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>- `runtime/mheap.go`</span></span>
+<span class="line"><span>    - asdf</span></span>
+<span class="line"><span>- `runtime/mcache.go`</span></span>
+<span class="line"><span>- `runtime/mcentral.go`</span></span>
+<span class="line"><span>- `runtime/msize.go`</span></span>
+<span class="line"><span>- `runtime/mstats.go`</span></span>
+<span class="line"><span>- `runtime/mgc.go`</span></span>
+<span class="line"><span>- `runtime/malloc.go`</span></span>
+<span class="line"><span></span></span></code></pre>
+</details>
+<h3 id="references">References</h3>
+<ul>
+<li>Goroutines and their scheduling basics:
+<ul>
+<li><a href="https://www.youtube.com/watch?v=S-MaTH8WpOM">https://www.youtube.com/watch?v=S-MaTH8WpOM</a> [Goroutines: Vicki Niu]</li>
+<li><a href="https://youtu.be/MYtUOOizITs?si=FVGFtez2z3fNCjx7">https://youtu.be/MYtUOOizITs?si=FVGFtez2z3fNCjx7</a> [Goroutines: jesus espino]</li>
+<li><a href="https://youtu.be/wQpC99Xu1U4?si=uOu0RiLyMpNXKYa0">https://youtu.be/wQpC99Xu1U4?si=uOu0RiLyMpNXKYa0</a> [Go Scheduler: Madhav Jivrajani]</li>
+</ul>
+</li>
+<li>Go scheduler basics
+<ul>
+<li>Channel primitives: <a href="https://youtu.be/KBZlN0izeiY?si=8HAeSVJxE3Vc3GC0">https://youtu.be/KBZlN0izeiY?si=8HAeSVJxE3Vc3GC0</a> [Channels - Kavya Joshi]</li>
+</ul>
+</li>
+<li>How memory allocation works in go
+<ul>
+<li><a href="https://goog-perftools.sourceforge.net/doc/tcmalloc.html">https://goog-perftools.sourceforge.net/doc/tcmalloc.html</a> [tcmalloc]</li>
+<li><a href="https://andrestc.com/post/go-memory-allocation-pt1/">https://andrestc.com/post/go-memory-allocation-pt1/</a> [tcmalloc inspired allocator]</li>
+</ul>
+</li>
+<li>Go garbage collection internals:
+<ul>
+<li><a href="https://youtu.be/gPxFOMuhnUU?si=O9pn99sLiqptgyw3">https://youtu.be/gPxFOMuhnUU?si=O9pn99sLiqptgyw3</a> [Garbage collector: Maya Rosecrance]</li>
+<li><a href="https://youtu.be/We-8RSk4eZA?si=QNXxqq2xVEoh9At9">https://youtu.be/We-8RSk4eZA?si=QNXxqq2xVEoh9At9</a> [GC Pacer: Madhav Jivrajani]</li>
+</ul>
+</li>
+<li>Netpoll: <a href="https://youtu.be/xwlo3xigknI?si=dmTrK_CH_fa0Bs51">https://youtu.be/xwlo3xigknI?si=dmTrK_CH_fa0Bs51</a> [netpoll - Cindy Sridharan]</li>
+</ul>  </div> <div class="blog-post-nav" data-astro-cid-4dqtj3le> <a href="/" class="back-link" data-astro-cid-4dqtj3le>cd ..</a> </div> </article>  </div> </main> <button id="theme-toggle" aria-label="Toggle dark mode" data-astro-cid-x3pjskd3> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-x3pjskd3> <path class="sun" d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-15v2m0 16v2M5.3 5.3l1.4 1.4m10.6 10.6 1.4 1.4M2 12h2m16 0h2M5.3 18.7l1.4-1.4m10.6-10.6 1.4-1.4" data-astro-cid-x3pjskd3></path> <path class="moon" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 10 10z" data-astro-cid-x3pjskd3></path> </svg> </button>   <div id="search-modal" x-data="{ 
+    open: false,
+    query: '',
+    results: [],
+    selectedIndex: -1,
+    init() {
+      this.$watch('open', value => {
+        if (value) {
+          setTimeout(() => this.$refs.searchInput.focus(), 50);
+          document.body.classList.add('modal-open');
+        } else {
+          document.body.classList.remove('modal-open');
+        }
+      });
+      
+      document.addEventListener('toggle-search', () => {
+        this.open = !this.open;
+        this.query = '';
+        this.results = [];
+      });
+      
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !this.open && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          this.open = true;
+        }
+        if (e.key === 'Escape' && this.open) {
+          this.open = false;
+        }
+      });
+    },
+    search() {
+      if (this.query.length < 2) {
+        this.results = [];
+        return;
+      }
+      
+      const fuseSearch = new window.Fuse(this.searchableContent, {
+        keys: ['title', 'description', 'content'],
+        includeScore: true,
+        threshold: 0.4,
+        ignoreLocation: true
+      });
+      
+      this.results = fuseSearch.search(this.query).slice(0, 10);
+      this.selectedIndex = this.results.length > 0 ? 0 : -1;
+    },
+    handleKeyDown(event) {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.selectedIndex = Math.min(this.selectedIndex + 1, this.results.length - 1);
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+      } else if (event.key === 'Enter' && this.selectedIndex >= 0) {
+        event.preventDefault();
+        window.location.href = this.results[this.selectedIndex].item.url;
+      }
+    }
+  }" x-init="searchableContent = JSON.parse(decodeURIComponent('<%- encodeURIComponent(JSON.stringify(searchableContent)) %>'))" x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="search-modal" @keydown.escape="open = false" data-astro-cid-qk3db3zz> <div class="search-backdrop" @click="open = false" data-astro-cid-qk3db3zz></div> <div class="search-container" data-astro-cid-qk3db3zz> <div class="search-header" data-astro-cid-qk3db3zz> <div class="terminal-dots" data-astro-cid-qk3db3zz> <div class="dot red" data-astro-cid-qk3db3zz></div> <div class="dot yellow" data-astro-cid-qk3db3zz></div> <div class="dot green" data-astro-cid-qk3db3zz></div> </div> <span class="search-title" data-astro-cid-qk3db3zz>$ grep -r</span> <button class="close-button" @click="open = false" data-astro-cid-qk3db3zz>×</button> </div> <div class="search-content" data-astro-cid-qk3db3zz> <div class="search-input-container" data-astro-cid-qk3db3zz> <input x-ref="searchInput" type="text" placeholder="Search the blog..." x-model="query" @input="search()" @keydown="handleKeyDown($event)" class="search-input" data-astro-cid-qk3db3zz> </div> <div class="search-results" x-show="query.length > 1" data-astro-cid-qk3db3zz> <template x-if="results.length === 0 && query.length > 1" data-astro-cid-qk3db3zz> <div class="no-results" data-astro-cid-qk3db3zz>No results found for "<span x-text="query" data-astro-cid-qk3db3zz></span>"</div> </template> <template x-if="results.length > 0" data-astro-cid-qk3db3zz> <ul class="results-list" data-astro-cid-qk3db3zz> <template x-for="(result, index) in results" :key="result.item.id" data-astro-cid-qk3db3zz> <li class="result-item" :class="{ 'selected': index === selectedIndex }" @click="window.location.href = result.item.url" @mouseover="selectedIndex = index" data-astro-cid-qk3db3zz> <div class="result-title" x-text="result.item.title" data-astro-cid-qk3db3zz></div> <div class="result-date" x-text="new Date(result.item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })" data-astro-cid-qk3db3zz></div> <div class="result-description" x-text="result.item.description || result.item.content.slice(0, 100) + '...'" data-astro-cid-qk3db3zz></div> </li> </template> </ul> </template> </div> </div> <div class="search-footer" x-show="query.length > 1" data-astro-cid-qk3db3zz> <div class="keyboard-shortcuts" data-astro-cid-qk3db3zz> <span data-astro-cid-qk3db3zz>↑↓ to navigate</span> <span data-astro-cid-qk3db3zz>↵ to select</span> <span data-astro-cid-qk3db3zz>ESC to close</span> </div> </div> </div> </div>  <!-- Fuse.js for search --> <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script> </body> </html>  
