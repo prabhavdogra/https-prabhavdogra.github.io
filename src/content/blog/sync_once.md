@@ -39,22 +39,23 @@ To follow along this read feel free to clone the [Golang](https://github.com/gol
 - Open the repository and run the bash script `./make.bash`, to build and install the latest compiler of Go.
 - Point your system or editor (like VSCode) to use the newly built Go version:
 
-> [!NOTE] Bootstrapped Compilers
-When I first came across the concept of a bootstrapped compiler, it honestly felt like a total brain teaser. The idea that a compiler could be written in the same language it’s supposed to compile? Wild.
-
-Here’s the bombshell: **the Go compiler is written in Go itself**.
-Sounds paradoxical, right?
-
-Like a classic chicken-and-egg dilemma - 
-**“How can a compiler compile itself if it doesn’t exist yet?”**
+> [!NOTE] 
+> **Bootstrapped Compilers**
+> 
+> When I first came across the concept of a bootstrapped compiler, it honestly felt like a total brain teaser. The idea that a compiler could be written in the same language it’s supposed to compile? Wild.
+> 
+> Here’s the bombshell: **the Go compiler is written in Go itself**.
+> Sounds paradoxical, right?
+> 
+> Like a classic chicken-and-egg dilemma - 
+> **“How can a compiler compile itself if it doesn’t exist yet?”**
 > In programming, bootstrapping refers to:
 > The process of building a system using a simpler or initial version of itself.
-
-- `make.bash` is a shell script located at `src/make.bash` inside the Go source tree.
-- It's used to bootstrap the Go toolchain — it builds the Go compiler (`cmd/compile`), linker (`cmd/link`), and other core tools from scratch using the Go bootstrap toolchain.
-- It uses the already installed Go compiler
-- Use the clones Golang source code to build the new version of Go.
-:::
+> 
+> - `make.bash` is a shell script located at `src/make.bash` inside the Go source tree.
+> - It's used to bootstrap the Go toolchain — it builds the Go compiler (`cmd/compile`), linker (`cmd/link`), and other core tools from scratch using the Go bootstrap toolchain.
+> - It uses the already installed Go compiler
+> - Use the clones Golang source code to build the new version of Go.
 
 ### Internals (Go 1.18)
 Let's start from the basics, struct of `sync.Once` looks like
