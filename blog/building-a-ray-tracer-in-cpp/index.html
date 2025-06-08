@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en" data-astro-cid-ouamjn2i> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="A terminal-styled developer blog"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Building a Ray Tracer in C++</title><link rel="stylesheet" href="/_astro/_slug_.9FmQwCpw.css">
+<!DOCTYPE html><html lang="en" data-astro-cid-ouamjn2i> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="A terminal-styled developer blog"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Building a Ray Tracer in C++</title><link rel="stylesheet" href="/_astro/_slug_.GJexHCZG.css">
 <link rel="stylesheet" href="/_astro/_slug_.TTX37v3e.css"><script type="module">const c=document.getElementById("search-button");c?.addEventListener("click",()=>{document.dispatchEvent(new CustomEvent("toggle-search"))});const n=document.getElementById("theme-toggle"),o=window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");(e==="dark"||!e&&o)&&document.documentElement.classList.add("dark-theme");n?.addEventListener("click",()=>{const t=document.documentElement.classList.toggle("dark-theme");localStorage.setItem("theme",t?"dark":"light")});
 </script>
 <script type="module" src="/_astro/page.DZtx3eTe.js"></script></head> <body data-astro-cid-ouamjn2i> <header class="header" data-astro-cid-3ef6ksr2> <div class="terminal-header" data-astro-cid-3ef6ksr2> <div class="terminal-dots" data-astro-cid-3ef6ksr2> <div class="dot red" data-astro-cid-3ef6ksr2></div> <div class="dot yellow" data-astro-cid-3ef6ksr2></div> <div class="dot green" data-astro-cid-3ef6ksr2></div> </div> <nav class="terminal-nav" data-astro-cid-3ef6ksr2> <a href="/" class="command " data-astro-cid-3ef6ksr2>cd ~</a> <a href="/blog" class="command active" data-astro-cid-3ef6ksr2>cd ~/blog</a> <a href="/random" class="command " data-astro-cid-3ef6ksr2>rand</a> <a href="/whoami" class="command " data-astro-cid-3ef6ksr2>whoami</a> <a href="/ping" class="command " data-astro-cid-3ef6ksr2>ping</a> <a href="/assets/resume/PrabhavDogra.pdf" target="_blank" rel="noopener noreferrer" class="command" data-astro-cid-3ef6ksr2>cd ~/resume</a> </nav> <span class="prompt" data-astro-cid-3ef6ksr2>$</span> <button id="search-button" class="search-button" data-astro-cid-3ef6ksr2>
@@ -11,16 +11,7 @@ search <span class="search-term" data-astro-cid-3ef6ksr2>--query='search term'</
 <h3 id="p3-image-format">P3 Image Format</h3>
 <p>In P3, each pixel is defined by three integers corresponding to the red, green, and blue color channels. The first line of the output is “P3”, identifying the file format. The second line contains the width and height of the image. The third line specifies the maximum color value (typically 255, representing the maximum intensity for each color channel).
 Each subsequent line contains three integers (r, g, b) for each pixel’s color in the image.</p>
-<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="text"><code><span class="line"><span>P3           // Defining format</span></span>
-<span class="line"><span>2 3          // Width and Height</span></span>
-<span class="line"><span>255          // Maximum color value</span></span>
-<span class="line"><span>2 5 15       // (r, g, b) color intensity triplets</span></span>
-<span class="line"><span>0 255 255    // (r, g, b) color intensity triplets</span></span>
-<span class="line"><span>255 0 255    // (r, g, b) color intensity triplets</span></span>
-<span class="line"><span>255 255 0    // (r, g, b) color intensity triplets</span></span>
-<span class="line"><span>0 0 0        // (r, g, b) color intensity triplets</span></span>
-<span class="line"><span>255 255 255  // (r, g, b) color intensity triplets</span></span>
-<span class="line"><span></span></span></code></pre>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.y0rd3.css"><script type="module" src="/_astro/ec.8zarh.js"></script><figure class="frame has-title"><figcaption class="header"><span class="title">Sample P3 image of width 2 pixels and height 3 pixels</span></figcaption><pre data-language="text"><code><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">P3           // Defining format</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">2 3          // Width and Height</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">255          // Maximum color value</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">2 5 15       // (r, g, b) color intensity triplets</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">0 255 255    // (r, g, b) color intensity triplets</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">255 0 255    // (r, g, b) color intensity triplets</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">255 255 0    // (r, g, b) color intensity triplets</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">0 0 0        // (r, g, b) color intensity triplets</span></div></div><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">255 255 255  // (r, g, b) color intensity triplets</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="P3           // Defining format2 3          // Width and Height255          // Maximum color value2 5 15       // (r, g, b) color intensity triplets0 255 255    // (r, g, b) color intensity triplets255 0 255    // (r, g, b) color intensity triplets255 255 0    // (r, g, b) color intensity triplets0 0 0        // (r, g, b) color intensity triplets255 255 255  // (r, g, b) color intensity triplets"><div></div></button></div></figure></div>
 <p>This image looks like:       <img  src="/_astro/image-3.GthlWSqN_ZoY9vY.webp" alt="P3" width="45" height="62" loading="lazy" decoding="async"></p>
 <h3 id="milestone-1-results">Milestone 1 Results</h3>
 <p>We write a simple loop to render this:</p>
@@ -213,9 +204,7 @@ This image represents the basic concept of a ray-tracing camera model used in co
 <p>A more accurate representation of real diffuse objects is the Lambertian distribution. This distribution scatters reflected rays in a manner that is proportional to cos(𝜙), where 𝜙 is the angle between the reflected ray and the surface normal.</p>
 <p>This means that a reflected ray is most likely to scatter in a direction near the surface normal, and less likely to scatter in directions away from the normal.
 We do this by</p>
-<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="c"><code><span class="line"><span style="color:#7F848E;font-style:italic">    // rec.normal is the normal to the hemisphere</span></span>
-<span class="line"><span style="color:#ABB2BF">    vec3 direction </span><span style="color:#C678DD">=</span><span style="color:#ABB2BF"> rec.normal </span><span style="color:#C678DD">+</span><span style="color:#61AFEF"> random_unit_vector</span><span style="color:#ABB2BF">();</span></span>
-<span class="line"></span></code></pre>
+<div class="expressive-code"><figure class="frame has-title"><figcaption class="header"><span class="title">src/v4/camera.h</span></figcaption><pre data-language="c"><code><div class="ec-line"><div class="code"><span class="indent">    </span><span style="--0:#99A0A6;--1:#616972">// rec.normal is the normal to the hemisphere</span></div></div><div class="ec-line"><div class="code"><span class="indent"><span style="--0:#E1E4E8;--1:#24292E">    </span></span><span style="--0:#E1E4E8;--1:#24292E">vec3 direction </span><span style="--0:#F97583;--1:#BF3441">=</span><span style="--0:#E1E4E8;--1:#24292E"> rec.normal </span><span style="--0:#F97583;--1:#BF3441">+</span><span style="--0:#E1E4E8;--1:#24292E"> </span><span style="--0:#B392F0;--1:#6F42C1">random_unit_vector</span><span style="--0:#E1E4E8;--1:#24292E">();</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="    // rec.normal is the normal to the hemisphere    vec3 direction = rec.normal + random_unit_vector();"><div></div></button></div></figure></div>
 <h3 id="gamma-correction">Gamma Correction</h3>
 <ul>
 <li>Gamma Correction for More Realistic Colors
@@ -224,8 +213,7 @@ We do this by</p>
 <li>Most displays, however, interpret color values in a non-linear way, requiring gamma correction.</li>
 <li>Gamma correction is applied using the equation:</li>
 </ul>
-<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>corrected color = raw color ^ (¹⁄ᵧ)</span></span>
-<span class="line"><span></span></span></code></pre>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">corrected color = raw color ^ (¹⁄ᵧ)</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="corrected color = raw color ^ (¹⁄ᵧ)"><div></div></button></div></figure></div>
 where <strong>γ</strong> (gamma) is typically <strong>2.2</strong>.</li>
 </ul>
 <h2 id="milestone-5">Milestone 5:</h2>
@@ -251,8 +239,7 @@ where <strong>γ</strong> (gamma) is typically <strong>2.2</strong>.</li>
 <h3 id="metallic-surfaces-and-reflective-rays">Metallic Surfaces and Reflective Rays</h3>
 <p>Introduces metallic materials by modifying how rays bounce off surfaces.
 Reflection is modeled using the equation:</p>
-<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>𝑅 = 𝑉 − 2 (𝑉 ⋅ 𝑁) 𝑁 </span></span>
-<span class="line"><span></span></span></code></pre>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">𝑅 = 𝑉 − 2 (𝑉 ⋅ 𝑁) 𝑁</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="𝑅 = 𝑉 − 2 (𝑉 ⋅ 𝑁) 𝑁"><div></div></button></div></figure></div>
 <p><img  src="/_astro/image-9.C7hInL71_1uXYYH.webp" alt="Mirrored reflection" width="400" height="306" loading="lazy" decoding="async"></p>
 <ul>
 <li>Where,
@@ -277,8 +264,7 @@ The reflected ray is traced to determine the color contribution from the metal.<
 <p>Clear materials such as water, glass, and diamond are dielectrics. When a light ray hits them, it splits into a reflected ray and a refracted (transmitted) ray. We’ll handle that by randomly choosing between reflection and refraction, only generating one scattered ray per interaction.</p>
 <h3 id="snells-law">Snell’s Law</h3>
 <p>Where 𝜃 and 𝜃′ are the angles from the normal, and 𝜂 and 𝜂′ are the refractive indices. The geometry is:</p>
-<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>⇒ 𝜂 ⋅ sin𝜃 = 𝜂′ ⋅ sin𝜃′</span></span>
-<span class="line"><span></span></span></code></pre>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">⇒ 𝜂 ⋅ sin𝜃 = 𝜂′ ⋅ sin𝜃′</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="⇒ 𝜂 ⋅ sin𝜃 = 𝜂′ ⋅ sin𝜃′"><div></div></button></div></figure></div>
 <p>where:</p>
 <ul>
 <li><strong>𝜂</strong> — Refractive index of the first medium</li>
@@ -289,14 +275,12 @@ The reflected ray is traced to determine the color contribution from the metal.<
 <p><img  src="/_astro/image-1.CpnX6-YB_2ofh8T.webp" alt="Snell&#38;#x27;s Law" width="421" height="358" loading="lazy" decoding="async"></p>
 <h3 id="total-internal-reflection">Total Internal Reflection</h3>
 <p>Total Internal Reflection (TIR) occurs when light traveling from a <strong>denser medium</strong> to a <strong>less dense medium</strong> is <strong>completely reflected</strong> rather than refracted. This happens when the <strong>angle of incidence</strong> exceeds the <strong>critical angle</strong>, given by:</p>
-<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>theta = sin⁻¹(n₂ / n₁)</span></span>
-<span class="line"><span></span></span></code></pre>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">theta = sin⁻¹(n₂ / n₁)</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="theta = sin⁻¹(n₂ / n₁)"><div></div></button></div></figure></div>
 <p><img  src="/_astro/image-11.byV9tG0d_QRvQk.webp" alt="TIR" width="300" height="240" loading="lazy" decoding="async"></p>
 <h3 id="schlicks-approximation">Schlick’s Approximation</h3>
 <p>Schlick’s Approximation provides an efficient way to estimate <strong>reflectance</strong> at the interface of two materials based on the <strong>angle of incidence</strong>.</p>
 <p><img  src="/_astro/image-12.BrGc8_pP_Z1H4CRy.webp" alt="schlicks" width="1600" height="637" loading="lazy" decoding="async"></p>
-<pre class="astro-code one-dark-pro" style="background-color:#282c34;color:#abb2bf; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;" tabindex="0" data-language="plaintext"><code><span class="line"><span>R₀ = ((n₁ - n₂) / (n₁ + n₂))²</span></span>
-<span class="line"><span></span></span></code></pre>
+<div class="expressive-code"><figure class="frame"><figcaption class="header"></figcaption><pre data-language="plaintext"><code><div class="ec-line"><div class="code"><span style="--0:#e1e4e8;--1:#24292e">R₀ = ((n₁ - n₂) / (n₁ + n₂))²</span></div></div></code></pre><div class="copy"><button title="Copy to clipboard" data-copied="Copied!" data-code="R₀ = ((n₁ - n₂) / (n₁ + n₂))²"><div></div></button></div></figure></div>
 <p>This approximation avoids expensive computations while providing visually accurate reflections.</p>
 <h3 id="final-render">Final Render</h3>
 <p><img  src="/_astro/image-2.QIbRKyLp_Z1B0dVr.webp" alt="Final" width="1200" height="675" loading="lazy" decoding="async"></p>  </div> <div class="blog-post-nav" data-astro-cid-4dqtj3le> <a href="/" class="back-link" data-astro-cid-4dqtj3le>cd ..</a> </div> </article>  </div> </main> <button id="theme-toggle" aria-label="Toggle dark mode" data-astro-cid-x3pjskd3> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-x3pjskd3> <path class="sun" d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-15v2m0 16v2M5.3 5.3l1.4 1.4m10.6 10.6 1.4 1.4M2 12h2m16 0h2M5.3 18.7l1.4-1.4m10.6-10.6 1.4-1.4" data-astro-cid-x3pjskd3></path> <path class="moon" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 10 10z" data-astro-cid-x3pjskd3></path> </svg> </button>   <div id="search-modal" x-data="{ 
