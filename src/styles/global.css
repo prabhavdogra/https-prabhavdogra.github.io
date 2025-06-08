@@ -186,3 +186,8 @@ pre {
 .markdown-alert-caution .markdown-alert-title {
   color: var(--remark-red);
 }
+
+.markdown-content .expressive-code figure.frame pre {
+  margin-block-start: 0;
+  margin-block-end:   0;
+}
